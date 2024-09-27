@@ -1,0 +1,152 @@
+[
+    {
+        "text": "How would you rate the employee's current month performance compared to previous month?",
+        "type": "quiz",
+        "options": [
+            "Worse",
+            "Same",
+            "Better"
+        ]
+    },
+    {
+        "text": "How effectively has the employee communicated with team members this month?",
+        "type": "quiz",
+        "options": [
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good",
+            "Excellent"
+        ]
+    },
+    {
+        "text": "How effectively has the employee communicated with team stakeholders this month?",
+        "type": "quiz",
+        "options": [
+            "Not Applicable",
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good"
+        ]
+    },
+    {
+        "text": "How would you rate the employee's attendance and punctuality this month?",
+        "type": "quiz",
+        "options": [
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good",
+            "Excellent"
+        ]
+    },
+    {
+        "text": "How effectively has the employee demonstrated leadership or mentorship this month?",
+        "type": "quiz",
+        "options": [
+            "Needs Improvement",
+            "Meets Expectations",
+            "Exceeds Expectations"
+        ]
+    },
+    {
+        "text": "How has the employee demonstrated innovation and creativity in their work this month?",
+        "type": "quiz",
+        "options": [
+            "Not at All",
+            "Occasionally",
+            "Frequently",
+            "Consistently"
+        ]
+    },
+    {
+        "text": "How would you evaluate the employee's problem-solving abilities this month?",
+        "type": "quiz",
+        "options": [
+            "Needs Improvement",
+            "Meets Expectations",
+            "Exceeds Expectations"
+        ]
+    },
+    {
+        "text": "How effectively has the employee managed their time and met deadlines this month?",
+        "type": "quiz",
+        "options": [
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good",
+            "Excellent"
+        ]
+    },
+    {
+        "text": "How proactive has the employee been in taking on new responsibilities this month?",
+        "type": "quiz",
+        "options": [
+            "Not Proactive",
+            "Somewhat Proactive",
+            "Proactive"
+        ]
+    },
+    {
+        "text": "How would you rate the quality of the employee's work this month?",
+        "type": "quiz",
+        "options": [
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good",
+            "Excellent"
+        ]
+    },
+    {
+        "text": "How adaptable has the employee been to changes in the workplace this month?",
+        "type": "quiz",
+        "options": [
+            "Not Applicable",
+            "Not Adaptable",
+            "Somewhat Adaptable",
+            "Adaptable"
+        ]
+    },
+    {
+        "text": "How dependable has the employee been in completing tasks on time this month?",
+        "type": "quiz",
+        "options": [
+            "Not Dependable",
+            "Somewhat Dependable",
+            "Dependable"
+        ]
+    },
+    {
+        "text": "How would you rate the employee's overall impact on team morale this month?",
+        "type": "quiz",
+        "options": [
+            "Not Applicable",
+            "Negative",
+            "Neutral",
+            "Positive"
+        ]
+    },
+    {
+        "text": "How committed has the employee been to their professional development this month?",
+        "type": "quiz",
+        "options": [
+            "Not Committed",
+            "Somewhat Committed",
+            "Committed"
+        ]
+    },
+    {
+        "text": "How well has the employee handled feedback and implemented improvements this month?",
+        "type": "quiz",
+        "options": [
+            "Not Applicable",
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good"
+        ]
+    }
+]

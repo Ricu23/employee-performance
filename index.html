@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Performance Rating Wizard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div id="wizard" class="bg-white p-8 mt-10 rounded-lg shadow-lg w-full max-w-2xl relative">
+        <!-- Progress Bar -->
+        <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 w-3/5">
+            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                <div id="progress" class="bg-orange-600 h-1.5 rounded-full" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="mt-0">
+            <h1 id="question-title" class="text-2xl font-bold mb-16 text-center text-orange-600"></h1>
+            <div id="questions" class="flex flex-wrap justify-center gap-4 mt-4"></div>
+            <div id="summary" class="mb-6 hidden"></div>
+        </div>
+    </div>
+    <div class="flex justify-between mt-6 w-full max-w-2xl px-8">
+        <button type="button" id="prev-btn" class="hidden text-blue-600 hover:underline flex items-center">
+            &#8592; Previous
+        </button>
+        <button type="submit" id="submit-btn" class="hidden text-blue-600 hover:underline flex items-center">
+            Submit
+        </button>
+    </div>
+
+    <form id="rating-form" class="w-full max-w-2xl hidden"></form>
+
+    <script>
+        $(document).ready(function () {
+            let currentQuestion = 0;
+            let questions = [];
+            let answers = [];
+
+            $.getJSON('questions.json', function (data) {
+                questions = data;
+                showQuestion(currentQuestion);
+                updateProgressBar();
+            });
+
+            function showQuestion(index) {
+                const question = questions[index];
+                $('#question-title').text(question.text);
+                let html = '';
+
+                question.options.forEach((option) => {
+                    html += `
+                        <button type="button" class="option-btn bg-orange-300 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition-colors" data-value="${option}">
+                            ${option}
+                        </button>
+                    `;
+                });
+
+                $('#questions').html(html).removeClass('hidden');
+                $('#summary').addClass('hidden');
+
+                if (answers[index]) {
+                    $(`.option-btn[data-value="${answers[index]}"]`)
+                        .addClass('bg-orange-500')
+                        .removeClass('bg-orange-300 hover:bg-orange-500');
+                }
+
+                $('.option-btn').click(function () {
+                    const selectedOption = $(this).data('value');
+                    answers[index] = selectedOption;
+                    $('.option-btn')
+                        .removeClass('bg-orange-500')
+                        .addClass('bg-orange-300 hover:bg-orange-500');
+                    $(this)
+                        .addClass('bg-orange-500')
+                        .removeClass('bg-orange-300 hover:bg-orange-500');
+                    goToNextQuestion();
+                });
+
+                if (index === 0) {
+                    $('#prev-btn').addClass('hidden');
+                } else {
+                    $('#prev-btn').removeClass('hidden');
+                }
+            }
+
+            function showSummary() {
+                let html = `
+                    <div class="flex justify-center mb-4">
+                        <button type="submit" class="submit-btn-summary bg-red-400 text-white px-6 py-2 -mt-8 mb-6 rounded-lg hover:bg-red-600 transition-colors">
+                            Submit
+                        </button>
+                    </div>
+                    <h2 class="text-2xl font-semibold mb-4 text-center text-orange-600">Summary</h2>
+                `;
+                questions.forEach((question, index) => {
+                    const answer = answers[index] || 'Not answered';
+                    html += `
+                        <div class="mb-4 p-4 bg-gray-50 rounded-lg">
+                            <p class="font-semibold mb-2">${question.text}</p>
+                            <div class="flex items-center">
+                                <span class="mr-2">Answer:</span>
+                                <select name="summary_q${index}" class="form-select mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                    ${question.options.map(option => `<option value="${option}" ${option === answer ? 'selected' : ''}>${option}</option>`).join('')}
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                });
+                $('#summary').html(html).removeClass('hidden');
+                $('#questions').addClass('hidden');
+                $('#question-title').text('Review Your Answers');
+                $('#prev-btn').removeClass('hidden');
+            }
+
+            function updateProgressBar() {
+                const progress = ((currentQuestion + 1) / (questions.length + 1)) * 100;
+                $('#progress').css('width', `${progress}%`);
+            }
+
+            function goToNextQuestion() {
+                if (currentQuestion < questions.length - 1) {
+                    currentQuestion++;
+                    showQuestion(currentQuestion);
+                    updateProgressBar();
+                } else {
+                    showSummary();
+                    currentQuestion++;
+                    updateProgressBar();
+                    $('#submit-btn').removeClass('hidden');
+                }
+            }
+
+            $('#prev-btn').click(function () {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    if (currentQuestion === questions.length) {
+                        showQuestion(currentQuestion - 1);
+                        $('#summary').addClass('hidden');
+                        $('#questions').removeClass('hidden');
+                        $('#question-title').text(questions[currentQuestion - 1].text);
+                        currentQuestion--;
+                    } else {
+                        showQuestion(currentQuestion);
+                    }
+                    updateProgressBar();
+                }
+
+                $('#submit-btn').addClass('hidden');
+            });
+
+            // Handle both Submit buttons
+            $(document).on('click', '#submit-btn, .submit-btn-summary', function () {
+                // Update answers from summary page
+                questions.forEach((_, index) => {
+                    answers[index] = $(`select[name="summary_q${index}"]`).val();
+                });
+                console.log('Form submitted:', answers);
+                alert('Form submitted successfully!');
+                // Here you would typically send the data to a server
+            });
+        });
+    </script>
+</body>
+
+</html>
